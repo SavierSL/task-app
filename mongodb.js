@@ -23,7 +23,7 @@ MongoClient.connect(
     const db = client.db(databaseName); // to manipulate the database
     console.log("connected");
 
-    // db.collection("users").findOne(
+    // db.collection("users").findOne(                               //findOne
     //   { _id: new ObjectID("5fce41a5d393607c1cf3513c") }, // {name:'Xavier'}
     //   (error, user) => {
     //     if (error) {
@@ -37,11 +37,24 @@ MongoClient.connect(
     //   .toArray((error, users) => {
     //     console.log(users);
     //   });
-    db.collection("users")
-      .find({ age: 22 }) // cursor method
-      .count((error, users) => {
-        console.log(users);
-      });
+    // db.collection("users")
+    //   .find({ age: 22 }) // cursor method //count //toArray
+    //   .count((error, users) => {
+    //     console.log(error);
+    //     console.log(users);
+    //   });
+    // db.collection("tasks").findOne(
+    //   { _id: new ObjectID("5fce4d715ffd2086d07eeea3") },
+    //   (error, result) => {
+    //     console.log(result);
+    //   }
+    // );
+
+    // db.collection("tasks")
+    //   .find({ completed: false })
+    //   .toArray((error, result) => {
+    //     console.log(result);
+    //   });
 
     // db.collection("users").insertOne(
     //   {
@@ -92,7 +105,61 @@ MongoClient.connect(
     //     );
     //   }
     // );
+
+    // UPDATE
+    // db.collection("users")
+    //   .updateOne(
+    //     {
+    //       _id: new ObjectID("5fce41a5d393607c1cf3513c"),
+    //     },
+    //     {
+    //       $set: {
+    //         // mongodb update operators
+    //         name: "Gajeel",
+    //       },
+    //       $inc: {
+    //         age: 1,
+    //       },
+    //     }
+    //   )
+    //   .then((result) => {
+    //     console.log(result);
+    //   })
+    //   .catch((e) => {
+    //     console.log(e);
+    //   });
+    // db.collection("users")
+    //   .updateMany(
+    //     {
+    //       age: 22,
+    //     },
+    //     {
+    //       $inc: {
+    //         age: 1,
+    //       },
+    //     }
+    //   )
+    //   .then((result) => {
+    //     console.log(result);
+    //   })
+    //   .catch((e) => {
+    //     console.log(e);
+    //   });
+    //   db.collection("users") // DELETE
+    //     .deleteMany({
+    //       age: 21,
+    //     })
+    //     .then((result) => {
+    //       console.log(result);
+    //     })
+    //     .catch((error) => {
+    //       console.log(error);
+    //     });
+    db.collection("tasks")
+      .deleteOne({
+        description: "Study",
+      })
+      .then((res) => console.log(res))
+      .catch((e) => console.log(e));
   }
 );
-
-// QUERY DOCUMENTATION CHALLENGE
