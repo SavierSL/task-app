@@ -1,6 +1,5 @@
 //TO CONNECT IN ROBO
 
-
 const mongoose = require("mongoose"); // npm i mongoose
 const validator = require("validator"); // npm i validator
 
@@ -10,6 +9,7 @@ const databaseName = "task-manager";
 mongoose.connect(`${connectionURL}/task-manager-api`, {
   useNewUrlParser: true,
   useCreateIndex: true,
+  useFindAndModify: false,
 });
 
 // const User = mongoose.model("users", {

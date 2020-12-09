@@ -3,6 +3,7 @@
 const mongoose = require("mongoose"); // npm i mongoose
 const validator = require("validator"); // npm i validator
 const User = mongoose.model("users", {
+  //to create a collection
   name: {
     type: String,
     required: true,
@@ -31,7 +32,7 @@ const User = mongoose.model("users", {
     type: String,
     required: true,
     trim: true,
-    minlength: 6,
+    minLength: 6,
     validate(value) {
       if (value === "password") {
         // or value.toLowerCase().includes('password')
