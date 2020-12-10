@@ -2,7 +2,11 @@
 
 const mongoose = require("mongoose"); // npm i mongoose
 const validator = require("validator"); // npm i validator
-const User = mongoose.model("users", {
+const bcrypt = require("bcryptjs");
+
+//SCHEMA TO TAKE ADVANTAGE ABOUT THE PRE AND POST FOR ADVANCE FEATURES
+
+const userSchema = new mongoose.Schema({
   //to create a collection
   name: {
     type: String,
@@ -10,6 +14,7 @@ const User = mongoose.model("users", {
   },
   email: {
     type: String,
+    unique: true,
     required: true,
     trim: true, // trim spaces
     lowercase: true,
@@ -42,6 +47,31 @@ const User = mongoose.model("users", {
       }
     },
   },
-}); // first is the string name for your model and the 2nd is the definition
+});
+
+userSchema.statics.findCredentials = async (email, password) => {
+  const user = await User.findOne({ email });
+  if (!user) {
+    throw new Error("Unable to login");
+  }
+  const isAuth = await bcrypt.compare(password, user.password);
+  if (!isAuth) {
+    throw new Error("Unable to login");
+  }
+  return user;
+};
+
+// pre before saving and post after save
+userSchema.pre("save", async function (next) {
+  const user = this;
+
+  if (user.isModified("passowrd")) {
+    user.password = await bcrypt.hash(user.password, 8);
+  }
+  user.password = await bcrypt.hash(user.password, 8);
+  next(); // make sure to call next() to exit in this function
+});
+
+const User = mongoose.model("users", userSchema); // first is the string name for your model and the 2nd is the definition
 
 module.exports = User;
